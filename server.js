@@ -100,16 +100,18 @@ app.get('/pagecount', function (req, res) {
   // initialized.
   if (!db) {
     initDb(function(err){
-        res.status(200).send('Something bad happened!');
-    });
-  }
-  if (db) {
-    db.collection('counts').count(function(err, count ){
-        res.status(200).send(count);
+        res.status(500).send('Something bad happened!');
     });
   } else {
-        res.status(200).send('Something bad happened!');
+      if (db) {
+          db.collection('counts').count(function(err, count ){
+              res.status(500).send(count);
+          });
+        } else {
+              res.status(500).send('Something bad happened!');
+        }
   }
+
 });
 
 // error handling
