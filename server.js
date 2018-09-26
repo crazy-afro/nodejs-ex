@@ -6,8 +6,8 @@ var express = require('express'),
     
 Object.assign=require('object-assign')
 
-app.engine('html', require('ejs').renderFile);
-app.use(morgan('combined'))
+//app.engine('html', require('ejs').renderFile);
+//app.use(morgan('combined'))
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
@@ -105,7 +105,9 @@ app.get('/pagecount', function (req, res) {
   } else {
       if (db) {
           db.collection('counts').count(function(err, count ){
-              res.status(200).send(count);
+              res.setHeader('Content-Type', 'application/json');
+              res.send(JSON.stringify({ count: count}));
+              //res.status(200).send(count);
           });
         } else {
               res.status(500).send('Something bad happened!');
