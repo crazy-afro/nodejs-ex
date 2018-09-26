@@ -105,9 +105,7 @@ app.get('/pagecount', function (req, res) {
   } else {
       if (db) {
           db.collection('counts').count(function(err, count ){
-              res.setHeader('Content-Type', 'application/json');
-              res.send(JSON.stringify({ count: count}));
-              //res.status(200).send(count);
+              res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails });
           });
         } else {
               res.status(500).send('Something bad happened!');
