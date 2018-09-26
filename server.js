@@ -99,14 +99,16 @@ app.get('/pagecount', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
   if (!db) {
-    initDb(function(err){});
+    initDb(function(err){
+        res.status(200).send('Something bad happened!');
+    });
   }
   if (db) {
     db.collection('counts').count(function(err, count ){
-      res.send('{ pageCount: ' + count + '}');
+        res.status(200).send(count);
     });
   } else {
-    res.send('{ pageCount: -1 }');
+        res.status(200).send('Something bad happened!');
   }
 });
 
